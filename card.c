@@ -1,4 +1,4 @@
-#include "card.h"
+ï»¿#include "card.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,15 +15,15 @@ void print_player_cards()
         {
             switch (line)
             {
-            case 0: printf("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤ "); break;
-            case 1: printf("¦¢%2c       ¦¢ ", player_cards[i]); break;
-            case 2: printf("¦¢         ¦¢ "); break;
-            case 3: printf("¦¢         ¦¢ "); break;
-            case 4: printf("¦¢         ¦¢ "); break;
-            case 5: printf("¦¢         ¦¢ "); break;
-            case 6: printf("¦¢         ¦¢ "); break;
-            case 7: printf("¦¢       %2c¦¢ ", player_cards[i]); break;
-            case 8: printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥ "); break;
+            case 0: printf("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â” "); break;
+            case 1: printf("â”‚%2c       â”‚ ", player_cards[i]); break;
+            case 2: printf("â”‚         â”‚ "); break;
+            case 3: printf("â”‚         â”‚ "); break;
+            case 4: printf("â”‚         â”‚ "); break;
+            case 5: printf("â”‚         â”‚ "); break;
+            case 6: printf("â”‚         â”‚ "); break;
+            case 7: printf("â”‚       %c â”‚ ", player_cards[i]); break;
+            case 8: printf("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ "); break;
             }
         }
         printf("\n");
@@ -38,15 +38,15 @@ void print_dealer_cards()
         {
             switch (line)
             {
-            case 0: printf("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤ "); break;
-            case 1: printf("¦¢%2c       ¦¢ ", dealer_cards[i]); break;
-            case 2: printf("¦¢         ¦¢ "); break;
-            case 3: printf("¦¢         ¦¢ "); break;
-            case 4: printf("¦¢         ¦¢ "); break;
-            case 5: printf("¦¢         ¦¢ "); break;
-            case 6: printf("¦¢         ¦¢ "); break;
-            case 7: printf("¦¢       %2c¦¢ ", dealer_cards[i]); break;
-            case 8: printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥ "); break;
+            case 0: printf("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â” "); break;
+            case 1: printf("â”‚%2c       â”‚ ", dealer_cards[i]); break;
+            case 2: printf("â”‚         â”‚ "); break;
+            case 3: printf("â”‚         â”‚ "); break;
+            case 4: printf("â”‚         â”‚ "); break;
+            case 5: printf("â”‚         â”‚ "); break;
+            case 6: printf("â”‚         â”‚ "); break;
+            case 7: printf("â”‚       %c â”‚ ", dealer_cards[i]); break;
+            case 8: printf("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ "); break;
             }
         }
         printf("\n");
@@ -55,24 +55,14 @@ void print_dealer_cards()
 
 void print_dealer_back_cards()
 {
-    for (int line = 0; line < 9; line++)
-    {
-        for (int i = 0; i < dealer_card_count; i++)
-        {
-            switch (line)
-            {
-            case 0: printf("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤ "); break;
-            case 1: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 2: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 3: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 4: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 5: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 6: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 7: printf("¦¢¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¦¢ "); break;
-            case 8: printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥ "); break;
-            }
-        }
-        printf("\n");
-    }
+    printf("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
+    printf("â”‚ %c       â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n", dealer_cards[0]);
+    printf("â”‚         â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n");
+    printf("â”‚         â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n");
+    printf("â”‚         â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n");
+    printf("â”‚         â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n");
+    printf("â”‚         â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n");
+    printf("â”‚       %c â”‚ â”‚â–’â–’â–’â–’â–’â–’â–’â–’â–’â”‚\n", dealer_cards[0]);
+    printf("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜\n");
 }
 
