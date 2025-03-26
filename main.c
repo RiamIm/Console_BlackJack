@@ -320,7 +320,7 @@ void totalscore_calculate_nonAce(int score, int* who)
     *who += score;
 }
 
-void totalscore_calculate_Ace(int score, int* who)
-{
-    if ()
-}
+//void totalscore_calculate_Ace(int score, int* who)
+//{
+//    if ()
+//}
