@@ -1,9 +1,10 @@
-#include "game.h"
+﻿#include "game.h"
 #include "card.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <windows.h>
 
 int is_bust = 0;
 int g_cash = 100;
