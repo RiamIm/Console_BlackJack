@@ -1,4 +1,8 @@
-#pragma once
+#ifndef CARD_H
+#define CARD_H
 
-void print_back_card();
-void print_card(char suit, int value, char face);
+void print_player_cards();
+void print_dealer_cards();
+void print_dealer_back_cards();
+
+#endif

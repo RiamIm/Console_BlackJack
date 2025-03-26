@@ -1,51 +1,78 @@
-#include <stdio.h>
 #include "card.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-void print_back_card()
+extern char player_cards[10];
+extern int player_card_count;
+extern char dealer_cards[10];
+extern int dealer_card_count;
+
+void print_player_cards()
 {
-    for (int i = 0; i < 2; i++) printf("忙式式式式式式式式式忖 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("弛〤〤〤〤〤〤〤〤〤弛 ");
-    printf("\n");
-    for (int i = 0; i < 2; i++) printf("戌式式式式式式式式式戎 ");
-    printf("\n");
+    for (int line = 0; line < 9; line++)
+    {
+        for (int i = 0; i < player_card_count; i++)
+        {
+            switch (line)
+            {
+            case 0: printf("忙式式式式式式式式式忖 "); break;
+            case 1: printf("弛%2c       弛 ", player_cards[i]); break;
+            case 2: printf("弛         弛 "); break;
+            case 3: printf("弛         弛 "); break;
+            case 4: printf("弛         弛 "); break;
+            case 5: printf("弛         弛 "); break;
+            case 6: printf("弛         弛 "); break;
+            case 7: printf("弛       %2c弛 ", player_cards[i]); break;
+            case 8: printf("戌式式式式式式式式式戎 "); break;
+            }
+        }
+        printf("\n");
+    }
 }
 
-void print_card(char suit, int value, char face)
+void print_dealer_cards()
 {
-    printf("忙式式式式式式式式式忖\n");
-    if (face == ' ')
+    for (int line = 0; line < 9; line++)
     {
-        printf("弛%2d       弛\n", value);
+        for (int i = 0; i < dealer_card_count; i++)
+        {
+            switch (line)
+            {
+            case 0: printf("忙式式式式式式式式式忖 "); break;
+            case 1: printf("弛%2c       弛 ", dealer_cards[i]); break;
+            case 2: printf("弛         弛 "); break;
+            case 3: printf("弛         弛 "); break;
+            case 4: printf("弛         弛 "); break;
+            case 5: printf("弛         弛 "); break;
+            case 6: printf("弛         弛 "); break;
+            case 7: printf("弛       %2c弛 ", dealer_cards[i]); break;
+            case 8: printf("戌式式式式式式式式式戎 "); break;
+            }
+        }
+        printf("\n");
     }
-    else
-    {
-        printf("弛%c        弛\n", face);
-    }
-    printf("弛         弛\n");
-    printf("弛         弛\n");
-    printf("弛    %c    弛\n", suit);
-    printf("弛         弛\n");
-    printf("弛         弛\n");
-    if (face == ' ')
-    {
-        printf("弛       %2d弛\n", value);
-    }
-    else
-    {
-        printf("弛        %c弛\n", face);
-    }
-    printf("戌式式式式式式式式式戎\n");
 }
+
+void print_dealer_back_cards()
+{
+    for (int line = 0; line < 9; line++)
+    {
+        for (int i = 0; i < dealer_card_count; i++)
+        {
+            switch (line)
+            {
+            case 0: printf("忙式式式式式式式式式忖 "); break;
+            case 1: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 2: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 3: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 4: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 5: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 6: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 7: printf("弛〤〤〤〤〤〤〤〤〤弛 "); break;
+            case 8: printf("戌式式式式式式式式式戎 "); break;
+            }
+        }
+        printf("\n");
+    }
+}
+

@@ -1,21 +1,8 @@
-#include <stdio.h>
-#include <conio.h>
-#include <math.h>
-#include <time.h>
-#include <process.h>
-#include <windows.h>
+#include "game.h"
 #include "card.h"
 
-#define SPADE   '♠'
-#define CLUB    '♣'
-#define HEART   '♥'
-#define DIAMOND '◆'
-#define TRUE 1
-#define FALSE 0
-
-int g_cash = 500;
-int g_won;
-int g_lost;
+int g_cash = 100;
+int g_bet_money;
 int g_player_total;
 int g_dealer_total;
 int card[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -26,24 +13,13 @@ int player_card_count = 0;
 char dealer_cards[10];
 int dealer_card_count = 0;
 
-void init();
-void print_title();
-void print_rule();
-void print_menu();
-void play();
-void deal_initial_cards();
-void hit();
-void print_player_cards();
-void print_dealer_cards();
-void print_dealer_back_cards();
-void dealer_cards_open();
-void totalscore_calculate_nonAce(int score, int* who);
-
 int main(void)
 {
     srand(time(NULL));
     init();
     print_title();
+
+    system("pause");
 
     return 0;
 }
@@ -66,6 +42,7 @@ void print_title()
     printf("    \\/___/    \\/____/ \\/__/\\/_/ \\/____/    \\/_/\\/_/   \\/___/  \\/__/\\/_/ \\/____/    \\/_/\\/_/\n");
     printf("\n\n");
     printf("					   시작 하시겠습니까?\n");
+    printf("					 소지하고 있는 돈: %d\n", g_cash);
     printf("					  ------------------\n");
     printf("					         (Y/N)\n                         \n");
     ch = _getch();
@@ -110,8 +87,18 @@ void print_menu()
         print_rule();
         break;
     case 3:
+        quit_game();
         break;
     }
+}
+
+void quit_game()
+{
+    system("cls");
+    printf("게임을 종료합니다.\n");
+    // 종료 전 잠시 대기
+    system("pause");
+    exit(0);
 }
 
 void print_rule()
@@ -140,8 +127,9 @@ void print_rule()
 
 void play()
 {
+    betting_money();
+    system("cls");
     deal_initial_cards();
-
     char choice;
     while (TRUE)
     {
@@ -163,8 +151,20 @@ void play()
     }
 }
 
+void betting_money()
+{
+    int bet_money;
+    print_money();
+    printf("\n\n\n 배팅할 금액을 입력하세요.: ");
+    scanf_s(" %d", &bet_money);
+    g_bet_money = bet_money;
+    g_cash -= bet_money;
+}
+
 void deal_initial_cards()
 {
+    print_money();
+    printf("\n현재 배팅한 금액: %d\n", g_bet_money);
     printf("딜러의 카드:\n");
     for (int i = 0; i < 2; i++)
     {
@@ -178,6 +178,7 @@ void deal_initial_cards()
         else if (random == 0)
         {
             dealer_cards[dealer_card_count++] = 'A';
+            totalscore_calculate_Ace_for_dealer(&g_dealer_total);
         }
         else
         {
@@ -186,7 +187,7 @@ void deal_initial_cards()
         }
     }
     print_dealer_back_cards();
-
+    printf("딜러 현재 점수: ??\n");
     printf("\n플레이어의 카드:\n");
     for (int i = 0; i < 2; i++)
     {
@@ -199,7 +200,14 @@ void deal_initial_cards()
         }
         else if (random == 0)
         {
+            system("cls");
             player_cards[player_card_count++] = 'A';
+            totalscore_calculate_Ace_for_player(&g_player_total);
+            print_money();
+            printf("\n현재 배팅한 금액: %d\n", g_bet_money);
+            printf("\n딜러의 카드\n");
+            print_dealer_back_cards();
+            printf("딜러 현재 점수: ??\n");
         }
         else
         {
@@ -208,11 +216,14 @@ void deal_initial_cards()
         }
     }
     print_player_cards();
+    printf("플레이어 현재 점수: %d\n", g_player_total);
 }
 
 void hit()
 {
-    system("cls"); // 콘솔 창을 지웁니다.
+    system("cls");
+    print_money();
+    printf("\n현재 배팅한 금액: %d\n", g_bet_money);
     printf("\n플레이어가 카드를 받았습니다\n");
     int random = rand() % 10;
     if (random == 9)
@@ -224,6 +235,8 @@ void hit()
     else if (random == 0)
     {
         player_cards[player_card_count++] = 'A';
+        totalscore_calculate_Ace_for_player(&g_player_total);
+        print_money();
     }
     else
     {
@@ -231,88 +244,73 @@ void hit()
         totalscore_calculate_nonAce(random + 1, &g_player_total);
     }
     printf("\n딜러의 카드\n");
-    print_dealer_back_cards(); // 딜러의 카드를 다시 출력합니다.
+    print_dealer_back_cards();
+    printf("딜러 현재 점수: ??\n");
     printf("\n플레이어의 카드\n");
-    print_player_cards(); // 플레이어의 카드를 다시 출력합니다.
+    print_player_cards();
+    printf("플레이어 현재 점수: %d\n", g_player_total);
 }
 
-void print_player_cards()
+void print_money()
 {
-    for (int line = 0; line < 9; line++)
-    {
-        for (int i = 0; i < player_card_count; i++)
-        {
-            switch (line)
-            {
-            case 0: printf("┌─────────┐ "); break;
-            case 1: printf("│%2c       │ ", player_cards[i]); break;
-            case 2: printf("│         │ "); break;
-            case 3: printf("│         │ "); break;
-            case 4: printf("│    %c    │ ", SPADE); break;
-            case 5: printf("│         │ "); break;
-            case 6: printf("│         │ "); break;
-            case 7: printf("│       %2c│ ", player_cards[i]); break;
-            case 8: printf("└─────────┘ "); break;
-            }
-        }
-        printf("\n");
-    }
+    printf("┌───────────────────────────────────┐\n");
+    printf("│           현재 머니 : %3d         │\n", g_cash);
+    printf("└───────────────────────────────────┘\n");
 }
 
-void print_dealer_cards()
-{
-    for (int line = 0; line < 9; line++)
-    {
-        for (int i = 0; i < dealer_card_count; i++)
-        {
-            switch (line)
-            {
-            case 0: printf("┌─────────┐ "); break;
-            case 1: printf("│%2c       │ ", dealer_cards[i]); break;
-            case 2: printf("│         │ "); break;
-            case 3: printf("│         │ "); break;
-            case 4: printf("│    %c    │ ", SPADE); break;
-            case 5: printf("│         │ "); break;
-            case 6: printf("│         │ "); break;
-            case 7: printf("│       %2c│ ", dealer_cards[i]); break;
-            case 8: printf("└─────────┘ "); break;
-            }
-        }
-        printf("\n");
-    }
-}
-
-void print_dealer_back_cards()
-{
-    for (int line = 0; line < 9; line++)
-    {
-        for (int i = 0; i < dealer_card_count; i++)
-        {
-            switch (line)
-            {
-            case 0: printf("┌─────────┐ "); break;
-            case 1: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 2: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 3: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 4: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 5: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 6: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 7: printf("│▒▒▒▒▒▒▒▒▒│ "); break;
-            case 8: printf("└─────────┘ "); break;
-            }
-        }
-        printf("\n");
-    }
-}
+#ifdef _WIN32
+#include <Windows.h> // Windows 환경에서 Sleep 함수를 사용하기 위함
+#else
+#include <unistd.h>  // Unix-like 환경에서 sleep 함수를 사용하기 위함
+#endif
 
 void dealer_cards_open()
 {
     system("cls");
-    printf("\n딜러의 카드\n");
+    print_money();
+    printf("\n현재 배팅한 금액: %d\n", g_bet_money);
+    printf("딜러가 카드를 받았습니다...\n");
     print_dealer_cards();
+    printf("딜러 점수: %d\n", g_dealer_total);
     printf("\n플레이어의 카드\n");
     print_player_cards();
     printf("플레이어 점수: %d\n", g_player_total);
+    // 딜러의 카드 오픈 전, 17 미만이면 계속 카드 뽑기
+    while (g_dealer_total <= 16)
+    {
+#ifdef _WIN32
+        Sleep(1000);       // 1초 대기
+#else
+        sleep(1);
+#endif
+        int random = rand() % 10;
+        if (random == 9)
+        {
+            int ch_random = rand() % 3;
+            dealer_cards[dealer_card_count++] = ch[ch_random];
+            totalscore_calculate_nonAce(10, &g_dealer_total);
+        }
+        else if (random == 0)
+        {
+            dealer_cards[dealer_card_count++] = 'A';
+            totalscore_calculate_Ace_for_dealer(&g_dealer_total);
+        }
+        else
+        {
+            dealer_cards[dealer_card_count++] = card[random] + '0';
+            totalscore_calculate_nonAce(random + 1, &g_dealer_total);
+        }
+
+        system("cls");
+        print_money();
+        printf("\n현재 배팅한 금액: %d\n", g_bet_money);
+        printf("딜러가 카드를 받았습니다...\n");
+        print_dealer_cards();
+        printf("딜러 점수: %d\n", g_dealer_total);
+        printf("\n플레이어의 카드\n");
+        print_player_cards();
+        printf("플레이어 점수: %d\n", g_player_total);
+    }
 }
 
 void totalscore_calculate_nonAce(int score, int* who)
@@ -320,7 +318,48 @@ void totalscore_calculate_nonAce(int score, int* who)
     *who += score;
 }
 
-//void totalscore_calculate_Ace(int score, int* who)
-//{
-//    if ()
-//}
+void totalscore_calculate_Ace_for_dealer(int* who)
+{
+    if (*who + 11 > 21)
+    {
+        *who += 1;
+    }
+    else
+    {
+        *who += 11;
+    }
+}
+
+void totalscore_calculate_Ace_for_player(int* player)
+{
+    char ch;
+    while (TRUE)
+    {
+        system("cls");
+        print_money();
+        printf("\n현재 배팅한 금액: %d\n", g_bet_money);
+        printf("\n딜러의 카드\n");
+        print_dealer_back_cards();
+        printf("딜러 현재 점수: ??\n");
+        printf("\n플레이어의 카드\n");
+        print_player_cards();
+        printf("플레이어 현재 점수: %d\n", *player);
+        printf("Ace 카드를 1점으로 하시겠습니까? (Y: 1점 / N: 11점): ");
+        ch = _getch();
+        if (ch == 89 || ch == 121)
+        {
+            *player += 1;
+            break;
+        }
+        else if (ch == 78 || ch == 110)
+        {
+            *player += 11;
+            break;
+        }
+        else
+        {
+            printf("Y 또는 N을 입력해주세요.\n");
+        }
+    }
+    system("cls");
+}
